@@ -1,0 +1,566 @@
+React Components and Component State
+Components are the building blocks of React applications. State - or data - is what we display in components for our users. In this module, we will learn how to build components that can hold state to create a great experience for our end users.
+
+At the end of this module, you should be able to:
+describe ReactJS and the problems that it tries to solve
+explain what components are and how they work in React
+explain what state is in web applications and demonstrate how to make a React component stateful
+change the state of the component with a click listener
+Pro Tip
+
+No problem can withstand the assault of sustained thinking.
+
+Prepare
+
+Review each preclass resource before class.
+
+
+
+Learn
+
+Learn to describe ReactJS and the problems that it tries to solve
+
+As you gain experience in the world of Web application development, you’ll find that there are many frameworks and libraries out there that are all trying to accomplish the same thing, the ability to build large scale applications effectively and rapidly. In today’s world, software changes fast, and we as developers have developed packages, software, libraries and frameworks that, when utilized, allow us to write software and deploy our changes to our systems rapidly enough to keep up with demand. This is one of the reasons (among many others) why these libraries, frameworks and packages are built. One of the most popular libraries out there for building applications today is ReactJS.
+
+It is really important to understand that React is just a single paradigm or one of many ways to write large scale application software. There are many benefits to learning ReactJS, especially as new developers, because of the way it leans you toward learning more about JavaScript and it doesn’t force you to rely on too much of it’s API in order to get things done. This allows for one to gain much more in depth knowledge about the JavaScript programming language, because you get a chance to write a lot of vanilla from within the React ecosystem.
+
+Overview
+
+React has quickly become one of the most commonly used libraries for building applications today. Because you’ve now seen some code that allows you to build custom components with Vanilla JavaScript, you’ve come to an understanding of how you can use JS to manipulate DOM elements. React is going to take that knowledge you have learned, and abstract away a lot of the document.getElementByClassname syntax. As you’ll see later on, there will only be one targeted DOM element for your entire application to live within. React will simply handle the rest for you.
+
+Because we have such rich user interfaces today that interact with ever-changing data, users interacting with DOM elements, and lots of animations and events firing, the DOM is certainly doing a lot of work. Imagine an app like twitter or Facebook that has users clicking all over the place, with data changing and almost instant status updates etc. For these types of large scale applications, React is very important. Simply put, we need a way to offload a lot of the state (data) that our apps need to use, from the DOM. To keep up with today’s demands of the web, we need a way to build applications that can take care a lot of the work for us.
+
+Lets face it, working with the DOM API is actually really hard. The React team recognizes this, so they built a simple engine called the virtual DOM that interacts with the actual DOM for us. We simply tell the virtual DOM which elements and state (data) to render to the actual DOM, and it will do so. Beyond that, it will “react” when the state (data) in our app changes, and will update the DOM accordingly. All on its own!
+
+In a process called “reconciliation”, React will detect that the state of the app has changed. Then it will update the virtual DOM, taking note of which nodes have changed due to the state changes. Finally, once it knows which nodes have changed, it will update only those specific nodes on the actual DOM. This takes a lot of pressure off of our browsers and it’s why React is as powerful as it is.
+
+Today, web applications are huge, complex pieces of software that millions and millions of users interact with simultaneously. React solves the problem of providing a smooth experience for our users, as well as those developing applications.
+
+Follow Along
+
+Please read through the ‘Try React’ tutorial found here and follow along with the documentation there. Take it a far as you’d like. But we’d love for you to come into class on Monday having played around with React and seen some react code.
+
+Read through this portion of the React documentation.
+Challenge
+
+On your own, write a paragraph about what ReactJS is and what problems that it tries to solve.
+
+Submit that paragraph to your Project Manager via Slack.
+
+Dig Deeper
+
+What problems does React JS solve?
+This article describes some of the reasons one would consider adopting react as their UI library
+Learn to explain what components are and how they work in React
+
+Everything you’ll do in React will revolve around components. They are the building blocks of any react application. There are actually a few different types of React components that are commonly seen today in use by React developers. Today you’ll learn about a simple function component and you’ll learn how to build on your own to display some state on the DOM using different DOM elements
+
+Overview
+
+Anatomy of a React Component
+
+import React from 'react';
+
+const Intro = () => {
+  return (
+    <div>
+      <h1>Hi Lambda!</h1>
+    </div>
+  );
+};
+This is a React “component”. A “component” is pretty loose term to describe a discrete chunk of your site. A header could be a component for example. Or a footer. Or a hero section, etc. This one’s pretty simple, all we’re doing is rendering a div with an h1 inside of it.
+
+No gotchas yet. This is going to generate pretty much what you’d expect.
+
+hi lambda component
+
+So what’s so odd about this? Well we’re mixing two disparate syntaxes here, right? Part of this block is a regular JavaScript Function.
+
+const Intro = () => {
+  return (
+   ...
+  );
+};
+And another part looks a lot like HTML.
+
+    <div>
+      <h1>Hi Lambda!</h1>
+    </div>
+That’s weird. You can’t do that in JavaScript so what the heck is going on here?
+We don’t need to understand all the details yet, but the basic idea is that the above block only looks like HTML.
+
+Its real name is JSX and underneath its disguise it’s actually just a JavaScript object. This is a simplification, but what our example above effectively translates into is something like this.
+
+import React from 'react';
+
+const Intro = () => {
+  return (
+
+      {
+          type: 'div',
+          props: {
+              children: {
+                  type: 'h1',
+                  props: {
+                      children: "Hi Lambda!"
+                  }
+              }
+          }
+      }
+
+  );
+};
+So when we return what looks like HTML in a React component what we’re secretly returning is a JavaScript object that describes the kind of HTML we want to make. React is going to figure out how to actually make it for us later.
+
+It’s important to understand early on that a React component is just a regular JavaScript function. We could return an object (sort of) like the one written above and it would work, but we want to use JSX for a couple of reasons. First, it’s easier to read than that big nested object. And second it’s going to allow us to put our application’s logic where it belongs: directly next to the thing the logic applies to.
+
+A brief demonstration of React’s power
+
+In the above example we’ve hardcoded the text of our h1 tag to read Hi Lambda!. But React gives us the ability to control our app’s content dynamically. Look at this:
+
+import React from 'react';
+
+const Intro = () => {
+  const greeting = "Hi Lambda!";
+  return (
+    <div>
+      <h1>{greeting}</h1>
+    </div>
+  );
+};
+hi lambda component
+
+Our code changed, but our output is the same. Because we’re just in a regular JavaScript function we’re free to declare a variable the way we normally do: const greeting = "Hi Lambda!";
+
+Once we’re in our JSX, React gives us the power to escape back into regular JavaScript and refer to that varibale by using the curly brackets <h1>{greeting}</h1>.
+
+These curly brakets will evaluate any valid JavaScript expression. So if we change<h1>{greeting}</h1> to <h1>{2 + 2}</h1>
+
+We get:
+
+four
+
+Now you know the basic mechanism of React. We don’t want to have to hardcode the content of our HTML, we want to be able to compute it.
+
+By now some of you are probably thinking, “Computing our markup, isn’t that what we learned DOM manipulation for?” and it’s a good question.
+
+Why do it this way?
+
+We’re going to focus on two major pillars of React’s design philosophy for now. The separation of concerns and declarative programming.
+
+Separation of concerns
+
+How can We know the dancer from the dance
+
+In computer programming “the spearation of concerns” refers to a design philosophy that each piece of your code should do one and only one thing. Functions with a lot of moving parts are hard to debug. One big function might be tricky to test. If we can split that function apart into smaller pieces that are easy to test individually our application will be more robust and easier to understand.
+
+At first glance it might appear that putting our markup right next to our JavaScript is a violation of this principle but the React team thinks otherwise. They argue that we can’t truly separate a <button> tag from the function the button invokes. Separating the two, one in an HTML file and another in a JavaScript file, isn’t a separation of concerns, it’s cutting one concern in half and then putting one half in the bedroom and the other half in the garage. It’s a headache we don’t need to opt in to.
+
+Consider the difference between this, the way you’re used to doing it:
+
+//HTML FILE
+<button class="button"></button>
+
+//JS FILE
+let button = document.querySelector('.button');
+button.addEventListener("click", (data)=>{...logic} )
+And the React way:
+
+<button onClick={ () => submitForm(data) } />
+I would argue there are a lot more opportunities for something to go wrong in the first approach.
+
+Imperative Programming vs Declarative Programming
+
+We have an array:
+
+let myArray = [1,2,3,4,5];
+And we want to iterate over it and double each number. Here’s two ways we could go about it.
+
+for (i = 0; i < myArray.length; i++) {
+    myArray[i] = myArray[i] * 2;
+}
+Or:
+
+const double =  (number) => {
+    return number * 2;
+}
+
+myArray.map(double);
+The first approach is an example of imperative code, and this is the kind of approach we’re most familiar with. There’s nothing wrong with imperative code, it’s very explicit and at a lower level all code is ultimately imperative. The problem with imperative code is it’s pretty abstruse and in more complex examples it can be hard to understand what the code does at a glance.
+
+The second approach is an example of declarative code. Instead of telling the computer, step by step, how we want it to do something, we just tell it what we want it to do.
+
+myArray.map(double)
+
+“Map over my array and double everything inside of it.”
+
+With practice declarative code is easier to parse. This is really important because, believe it or not, as a programmer most of your time isn’t actually spent writing code. It’s spent reading other people’s code and trying to understand what it does. If you can grasp this distinction, and appreciate its value, congratulations. You now understand the basis of functional programming, the programming paradigm that React is modeled on.
+
+So now we know the very basics of what React does and why it does it this way. In the next objective we’re going to introduce one of the single most important concepts in programming: state.
+
+Follow Along
+
+Let’s build a component that displays an image. This is how we would do that.
+
+import React from "react";
+function App() {
+  return (
+    <div className="App">
+      <img
+        src="https://i.pinimg.com/originals/92/94/ba/9294badee7b8f3d93fa9bc6c874641b2.png"
+        alt="lightbulb"
+      />
+    </div>
+  );
+}
+Notice how we have className instead of class in our JSX? That is because JSX is just JavaScript, and class is a reserved word in JS.
+
+Now, one more trick we can do with JSX. We can evaluate JavaScript expressions. So we can read variables, run functions, read data from objects or arrays, all kinds of things! To do this, we simply use curly braces - {}. Here we will use curly braces to render a the value of an object property as a header, and then we will evaluate a string variable as the src of the image.
+
+import React from "react";
+
+const image =
+  "https://i.pinimg.com/originals/92/94/ba/9294badee7b8f3d93fa9bc6c874641b2.png";
+const titleObj = {
+  title: "Light Bulb!"
+};
+
+function App() {
+  return (
+    <div className="App">
+      <h2>{titleObj.title}</h2> // this evaluates down to the string "Light
+      Bulb!"
+      <img src={image} alt="lightbulb" /> // this will evaluate down to the image
+      url string for the img src
+    </div>
+  );
+}
+JSX is so powerful!
+
+Challenge
+
+Your task here is to start to build out a React components from scratch. Have fun with this. Expirement with different elements.
+
+Learn to explain what state is in web applications and demonstrate how to make a React component stateful
+
+Web apps are basically comprised of data (aka state), and things that change that data, or state. It is therefore vital to understand what state is.
+
+Overview
+
+You actually already know this, though you may not realize it. If you’re at a soccer game and each team has 3 goals you might say that the “state” of the game is “tied.” A traffic light has three possible states: red, yellow and green. Similarly our applications also have states. If you have a todo app it might be said to have a state of “three todos, none of which are completed.” Upon completing one of the todos you’ve changed the application’s state.
+
+To see what this means concretely let’s start with the simplest state possible: a boolean. We’ll create an app that displays a light. The light will either be on or off.
+
+Follow Along
+
+Let’s get some code on the page.
+
+import React from "react";
+import { render } from "react-dom";
+import "./styles.css";
+
+const white = "https://image.flaticon.com/icons/png/512/32/32177.png";
+const yellow =
+  "https://i.pinimg.com/originals/92/94/ba/9294badee7b8f3d93fa9bc6c874641b2.png";
+
+function App() {
+  return (
+    <div className="App">
+      <img src={white} />
+      <img src={yellow} />
+    </div>
+  );
+}
+
+const rootElement = document.getElementById("root");
+render(<App />, rootElement);
+This doesn’t quite get us where we want to go.
+
+drawing
+
+Our application has the assets we want but we only want one lightbulb image to show at a time. To achieve this we’re going to have to keep track of its state.
+
+import React, {useState} from "react";
+import { render } from "react-dom";
+import "./styles.css";
+
+const white = "https://image.flaticon.com/icons/png/512/32/32177.png";
+const yellow =
+  "https://i.pinimg.com/originals/92/94/ba/9294badee7b8f3d93fa9bc6c874641b2.png";
+
+function App() {
+
+  const [lightOn, setLightOn ] = useState();
+
+  return (
+    <div className="App">
+      <img src={white} />
+      <img src={yellow} />
+    </div>
+  );
+}
+
+const rootElement = document.getElementById("root");
+render(<App />, rootElement);
+A couple of things have changed here. First, we’re importing the useState hook from the React library so we can use it.
+
+import React, {useState} from "react";
+
+Second, we’ve got this odd bit of syntax.
+
+const [lightOn, setLightOn ] = useState();
+
+This is the useState hook, and it’s fundamental to understanding modern React. If its syntax looks strange to you you’re not alone, but we’ll get back to why it looks like that later. For now what you should understand is that while the line may look strange all it’s really doing is declaring two variables the way you normally might. For now it’s okay to imagine that it’s doing something real close to this:
+
+let lightOn;
+let setLightOn = (value) => {lightOn = value;};
+(Note: ignore the discrepancy between the use of const in the hook and let in my example. It’s not important for now.)
+
+The sharp eyed among you might have noticed that lightOn doesn’t have a value.
+But as you can see if we were to invoke setLightOn and pass in a value as an argument, we can change the value of lightOn.
+
+setLightOn("sup");
+console.log(lightOn); // "sup"
+But what if we don’t want to have to manually assign a value to lightOn right away? What if we want that variable to be initialized with a value from the get-go? We can do that.
+
+Let’s change:
+
+const [lightOn, setLightOn ] = useState();
+
+To:
+
+const [lightOn, setLightOn ] = useState(false);
+
+Now it’s sort of like we’re saying this:
+
+let lightOn = false;
+let setLightOn = (value) => {lightOn = value;};
+In summation the useState hook const [lightOn, setLightOn ] = useState(false); works like this:
+
+lightOn is a variable the value of which is whatever we passed in to useState. In this case it’s value is the boolean primitive false. setLightOn is a function that will change the value of lightOn. We’ll also note that I could have named lightOn and setLightOn whatever I wanted. I could’ve named them peanutButter and jelly if I wanted but that would’ve made it pretty confusing for someone reading my code to understand what they do.
+
+Recap State
+
+Okay, so what have we learned? We know what state is in an application. We also know how to keep track of a state variable from within a component, we know how to initilize it with a value, and we know how we can change that value. What’s missing?
+
+Well for one we still have two light bulbs. We have a state variable initialized and a way to change it but our lightbulbs don’t know it exists. We have to make our lightbulbs aware of what the state is in some way so that they can know what to do when it changes. We’re going to need to learn a critically important pattern to make that happen.
+
+What is Conditional Rendering?
+
+Conditional rendering is just a fancy name for a very common pattern in React. We don’t want to see both lightbulbs at once. We only want to render one or the other on the basis of some condition. In this case if the lightOn boolean is set to false we want to see the white lightbulb. If it’s set to true we want to see the yellow one. This is a straightforward use-case for the ternary operator in JavaScript.
+
+import React, { useState } from "react";
+import { render } from "react-dom";
+import "./styles.css";
+
+const white = "https://image.flaticon.com/icons/png/512/32/32177.png";
+const yellow =
+  "https://i.pinimg.com/originals/92/94/ba/9294badee7b8f3d93fa9bc6c874641b2.png";
+
+function App() {
+  const [lightOn, setLightOn] = useState(false);
+
+  return (
+    <div className="App">
+      {lightOn === false ? <img src={white} /> : <img src={yellow} />}
+    </div>
+  );
+}
+
+const rootElement = document.getElementById("root");
+render(<App />, rootElement);
+This is the only part that changed:
+
+    <div className="App">
+      {lightOn === false ? <img src={white} /> : <img src={yellow} />}
+    </div>
+A ternary operator acts as a single line if/else statment. This line:
+
+{lightOn === false ? <img src={white} /> : <img src={yellow} />}
+
+It’s saying “Is the lightOn state variable set to false? If so render <img src={white} />, otherwise render <img src={yellow} />
+
+Remember this pattern, you’ll use it a lot.
+
+So what’s the result of this code? Well let’s find out.
+
+drawing
+
+Progress. It’s only showing the white bulb. What if we want it to show the yellow one now? Well remember, our ternary operator is conditionally rendering one lightbulb or the other. It’s being told to show the whtie one if lightOn is set to false, and to show the yellow one if it’s true. What happens if we hard code the initial value of lightOn to true?
+
+const [lightOn, setLightOn] = useState(true);
+
+The result?
+
+drawing
+
+Victory is nearly ours. We setup up a condition on which to render one bulb or the other. That condition was based on our application’s state. When we forced the state of the application to change what appeared on the page reacted to that change. That’s what React is really all about. Your state changes and your application reacts.
+
+The last step is figuring out how to change the state.
+
+Remember our hook from earlier?
+
+const [lightOn, setLightOn] = useState(false);
+
+You’ll recall that setLightOn is a function that can change the value of lightOn. Now we just have to find a way to invoke this function.
+
+Challenge
+
+Build a component that holds a person object in state. Display the persons data in the component.
+
+Learn to change the state of the component with a click listener
+
+As we discussed earlier, web apps are really made up of just two things - state and things that change that state. The things that can change state vary, but often times our state is changed by some user interaction in the app. We will learn here how to respond to our users clicking on an element, and change the state accordingly.
+
+Overview
+
+You’ve already used click listeners outside of React so we’re finally going to look at something that feels familiar. To attach a click listener to a react component we need to use this camel-casing: onClick. This event listener will take in a callback function. There are a couple gotchas with this, but don’t worry, we’ll describe them below.
+
+Follow Along
+
+Now that we know what the click event listener is in React, let’s put one on our <div>.
+
+Before we talk about the right way to do this, however, I want to show you a couple wrong ways. I want to do this for two reasons. 1) It will help us think more critically about how React works and 2) You will almost certainly make this mistake at some point and it’ll help to know what to look out for.
+
+So again, this is wrong:
+
+import React, { useState } from "react";
+import { render } from "react-dom";
+import "./styles.css";
+
+const white = "https://image.flaticon.com/icons/png/512/32/32177.png";
+const yellow =
+  "https://i.pinimg.com/originals/92/94/ba/9294badee7b8f3d93fa9bc6c874641b2.png";
+
+function App() {
+  const [lightOn, setLightOn] = useState(true);
+
+  return (
+    <div onClick={setLightOn} className="App">
+      {lightOn === false ? <img src={white} /> : <img src={yellow} />}
+    </div>
+  );
+}
+
+const rootElement = document.getElementById("root");
+render(<App />, rootElement);
+This is the relevant line:
+
+<div onClick={setLightOn} className="App">
+
+The reason this is wrong is because setLightOn is expecting an argument. Wewps! Common mistake. Well, no problem we’ll just pass it one like so:
+
+<div onClick={setLightOn(false)} className="App">
+
+Now our code looks like this:
+
+import React, { useState } from "react";
+import { render } from "react-dom";
+import "./styles.css";
+
+const white = "https://image.flaticon.com/icons/png/512/32/32177.png";
+const yellow =
+  "https://i.pinimg.com/originals/92/94/ba/9294badee7b8f3d93fa9bc6c874641b2.png";
+
+function App() {
+  const [lightOn, setLightOn] = useState(true);
+
+  return (
+    <div onClick={setLightOn(false)} className="App">
+      {lightOn === false ? <img src={white} /> : <img src={yellow} />}
+    </div>
+  );
+}
+
+const rootElement = document.getElementById("root");
+render(<App />, rootElement);
+Wewps. Everything broke again. What happened?
+
+Essentially <div onClick={setLightOn(false)} className="App"> is invoking setLightOn(false) over and over again and each invocation is triggering a rerender. We stumbled into an infinite loop. What we meant to write was this.
+
+<div onClick={ ()=> setLightOn(false) } className="App">
+
+See the difference?
+
+// Everything is on fire
+<div onClick={ setLightOn(false) } className="App">
+
+// Everything is fine
+<div onClick={ ()=> setLightOn(false) } className="App">
+The first invokes the function every nanosecond. The second only invokes it when you click the div.
+
+There’s one last little tweak we need to make to get our application to work. Try to figure it out for yourselves before reading on.
+
+Make our lightbulb app work
+
+In this case we’re passing false as an argument to setLightOn every time. That means the state will always be false which means we’re only ever going to hit one of our two conditions in our render. Instead of passing false, let’s just pass the opposite of whatever the state is.
+
+<div onClick={ ()=> setLightOn(!lightOn) } className="App">
+
+The final code looks like this:
+
+import React, { useState } from "react";
+import { render } from "react-dom";
+import "./styles.css";
+
+const white = "https://image.flaticon.com/icons/png/512/32/32177.png";
+const yellow =
+  "https://i.pinimg.com/originals/92/94/ba/9294badee7b8f3d93fa9bc6c874641b2.png";
+
+function App() {
+  const [lightOn, setLightOn] = useState(true);
+
+  return (
+    <div onClick={() => setLightOn(!lightOn)} className="App">
+      {lightOn === false ? <img src={white} /> : <img src={yellow} />}
+    </div>
+  );
+}
+
+const rootElement = document.getElementById("root");
+render(<App />, rootElement);
+And the result?
+
+drawing
+
+It’s glorious.
+
+Challenge
+
+Build a clicker app that keeps track of how many times you click on a button and displays that count in the component.
+
+Project
+
+American Football Scoreboard
+
+Build a stateful component that renders a scoreboard and utilize the click listener on buttons to increment each team’s score.
+
+Review
+
+Class Recordings
+
+You can use class recordings to help you master the material.
+
+React Components and Component State for WEB21 w/ Dan Levy
+Dan introduces React and use of hooks to manage state.
+
+All previous recordings
+Demonstrate Mastery
+
+To demonstrate mastery of this module, you need to complete and pass a code review on each of the following:
+
+Objective challenge:
+On your own, write a paragraph about what ReactJS is and what problems that it tries to solve.
+
+Submit that paragraph to your Project Manager via Slack.
+
+Objective challenge:
+Your task here is to start to build out a React components from scratch. Have fun with this. Expirement with different elements.
+
+Objective challenge:
+Build a component that holds a person object in state. Display the persons data in the component.
+
+Objective challenge:
+Build a clicker app that keeps track of how many times you click on a button and displays that count in the component.
+
+Project: American Football Scoreboard
